@@ -33,11 +33,18 @@ async function connectDB() {
         console.log('Connected to SQL Server database: JKAS (Pelarasan)');
     } catch (err) {
         console.error('Database connection failed:', err);
+        // Don't crash the app if database connection fails
+        console.log('Application will continue to run without database connection');
     }
 }
 
 // Initialize database connection
 connectDB();
+
+// Serve the main page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pelarasan.html'));
+});
 
 // Health check endpoint for Azure monitoring
 app.get('/api/health', (req, res) => {
