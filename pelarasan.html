@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pelarasan - JKAS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #34495e;
+            color: white;
+        }
+
+        .sidebar-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #2c3e50;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-item:hover {
+            background-color: #3498db;
+        }
+
+        .sidebar-item.active {
+            background-color: #3498db;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .inventori-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .inventori-item {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .inventori-item .form-col:first-child {
+            flex: 2;
+        }
+
+        .inventori-item .form-col:last-child {
+            flex: 1;
+        }
+
+        .kadar-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .kadar-input input {
+            flex: 1;
+            margin-right: 5px;
+        }
+
+        .unit-label {
+            font-weight: normal;
+            color: #666;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #229954;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .tambah-btn {
+            margin-top: 10px;
+        }
+
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .save-btn {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status-pending {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-buttons button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #sebabLainText {
+            margin-top: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .close {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>INTEGRATED WASTE KUALA LUMPUR</h1>
+        <p>Jabatan Kesihatan dan Alam Sekitar</p>
+        <p>Dewan Bandaraya Kuala Lumpur</p>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-item active" onclick="showSection('daftar')">Daftar Pelarasan</div>
+            <div class="sidebar-item" onclick="showSection('senarai')">Senarai Pelarasan</div>
+            <div class="sidebar-item" onclick="showSection('selesai')">Selesai</div>
+        </div>
+
+        <div class="content">
+            <!-- Daftar Pelarasan Section -->
+            <div id="daftar-section">
+                <div class="form-container">
+                    <h2 class="form-title">BORANG PELARASAN</h2>
+                    <form id="pelarasanForm">
+                        <!-- 1. Nama/Alamat Bangunan -->
+                        <div class="form-group">
+                            <label for="namaAlamat">1. NAMA / ALAMAT BANGUNAN</label>
+                            <textarea id="namaAlamat" name="namaAlamat" required></textarea>
+                        </div>
+
+                        <!-- 2. Perkhidmatan -->
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="perkhidmatan">2. PERKHIDMATAN</label>
+                                <select id="perkhidmatan" name="perkhidmatan" required>
+                                    <option value="">Pilih Perkhidmatan</option>
+                                    <option value="Kutipan Sampah">Kutipan Sampah</option>
+                                    <option value="Sapuan Jalan">Sapuan Jalan</option>
+                                    <option value="Cucian Longkang">Cucian Longkang</option>
+                                    <option value="Permotongan Rumput">Permotongan Rumput</option>
+                                    <option value="Sapuan Kaw Lapang">Sapuan Kaw Lapang</option>
+                                    <option value="Sapuan TPKK">Sapuan TPKK</option>
+                                    <option value="Pembersihan Pusat Penjaja/Pasar">Pembersihan Pusat Penjaja/Pasar</option>
+                                    <option value="Pasar Malam/Bazar">Pasar Malam/Bazar</option>
+                                    <option value="Cucian Jejantas">Cucian Jejantas</option>
+                                </select>
+                            </div>
+
+                            <!-- 3. Inventori Asal -->
+                            <div class="form-col">
+                                <label for="inventoriAsal">3. INVENTORI ASAL</label>
+                                <select id="inventoriAsal" name="inventoriAsal" onchange="showInventoriDetails()" required>
+                                    <option value="">Pilih Inventori</option>
+                                    <option value="Rumah Landed">Rumah Landed</option>
+                                    <option value="Unit Kediaman Berbilang Tingkat">Unit Kediaman Berbilang Tingkat</option>
+                                    <option value="Kedai/Pejabat">Kedai/Pejabat</option>
+                                    <option value="Longkang Perumahan">Longkang Perumahan</option>
+                                    <option value="Longkang Komersial">Longkang Komersial</option>
+                                    <option value="Monsoon Drain">Monsoon Drain</option>
+                                    <option value="Luas Kawasan Lapangang">Luas Kawasan Lapangang</option>
+                                    <option value="Luas Kawasan Rumput">Luas Kawasan Rumput</option>
+                                    <option value="Pembersihan Pusat Penjaja/Pasar">Pembersihan Pusat Penjaja/Pasar</option>
+                                    <option value="Pembersihan Pasar Malam/Bazar">Pembersihan Pasar Malam/Bazar</option>
+                                    <option value="Cucian Dalam">Cucian Dalam</option>
+                                    <option value="Cucian Luar">Cucian Luar</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Inventori Details Section -->
+                        <div id="inventoriDetails" class="inventori-section hidden">
+                            <div id="inventoriItems">
+                                <!-- Dynamic inventori items will be added here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary tambah-btn" onclick="addInventoriItem()">Tambah +</button>
+                        </div>
+
+                        <!-- 4. Tarikh Cadangan Pemotongan -->
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="tarikhCadangan">4. TARIKH CADANGAN PEMOTONGAN</label>
+                                <input type="date" id="tarikhCadangan" name="tarikhCadangan" required>
+                            </div>
+
+                            <!-- 5. Jumlah Bulan Yang Hendak Dipotong -->
+                            <div class="form-col">
+                                <label for="jumlahBulan">5. JUMLAH BULAN YANG HENDAK DIPOTONG (BULAN)</label>
+                                <input type="number" id="jumlahBulan" name="jumlahBulan" min="1" required>
+                            </div>
+                        </div>
+
+                        <!-- 6. Jumlah (RM) Cadangan Pemotongan -->
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="jumlahCadangan">6. JUMLAH (RM) CADANGAN PEMOTONGAN</label>
+                                <input type="number" id="jumlahCadangan" name="jumlahCadangan" step="0.01" min="0" required>
+                            </div>
+
+                            <!-- 7. Sebab Pemotongan -->
+                            <div class="form-col">
+                                <label for="sebabPemotongan">7. SEBAB PEMOTONGAN</label>
+                                <select id="sebabPemotongan" name="sebabPemotongan" onchange="toggleSebabLain()" required>
+                                    <option value="">Pilih Sebab</option>
+                                    <option value="Pembangunan Semula">Pembangunan Semula</option>
+                                    <option value="Dipindahkan Ke Lokasi Lain">Dipindahkan Ke Lokasi Lain</option>
+                                    <option value="Dirobohkan/Tidak Wujud">Dirobohkan/Tidak Wujud</option>
+                                    <option value="Projek Utiliti / Infrastruktur">Projek Utiliti / Infrastruktur</option>
+                                    <option value="Bangunan Yg Tidak Akan Diberi Perkhidmatan">Bangunan Yg Tidak Akan Diberi Perkhidmatan</option>
+                                    <option value="Bangunan / Permis Telah Dikosongkan">Bangunan / Permis Telah Dikosongkan</option>
+                                    <option value="Lain-Lain">Lain-Lain</option>
+                                </select>
+                                <textarea id="sebabLainText" name="sebabLainText" placeholder="Sila nyatakan sebab..." class="hidden"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 8. Keputusan Mesyuarat -->
+                        <div class="form-group">
+                            <label for="keputusanMesyuarat">8. KEPUTUSAN MESYUARAT</label>
+                            <textarea id="keputusanMesyuarat" name="keputusanMesyuarat" required></textarea>
+                        </div>
+
+                        <div class="save-btn">
+                            <button type="submit" class="btn btn-success">Simpan Pelarasan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Senarai Pelarasan Section -->
+            <div id="senarai-section" class="hidden">
+                <div class="table-container">
+                    <h2 class="form-title">SENARAI PELARASAN</h2>
+                    <table id="senarai-table">
+                        <thead>
+                            <tr>
+                                <th>BIL</th>
+                                <th>NAMA</th>
+                                <th>PERKHIDMATAN</th>
+                                <th>INVENTORI</th>
+                                <th>BILANGAN</th>
+                                <th>TARIKH PEMOTONGAN</th>
+                                <th>JUMLAH PEMOTONGAN</th>
+                                <th>KEPUTUSAN MESYUARAT</th>
+                                <th>STATUS</th>
+                                <th>TINDAKAN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic content will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Selesai Section -->
+            <div id="selesai-section" class="hidden">
+                <div class="table-container">
+                    <h2 class="form-title">PELARASAN SELESAI</h2>
+                    <table id="selesai-table">
+                        <thead>
+                            <tr>
+                                <th>BIL</th>
+                                <th>NAMA</th>
+                                <th>PERKHIDMATAN</th>
+                                <th>INVENTORI</th>
+                                <th>BILANGAN</th>
+                                <th>TARIKH PEMOTONGAN</th>
+                                <th>JUMLAH PEMOTONGAN</th>
+                                <th>KEPUTUSAN MESYUARAT</th>
+                                <th>TARIKH SELESAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic content will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Pelarasan</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="editForm">
+                <!-- Edit form will be populated here -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="button" class="btn btn-success" onclick="markCompleted()">Tandakan Selesai</button>
+                <button type="button" class="btn btn-primary" onclick="updatePelarasan()">Kemaskini</button>
+                <button type="button" class="btn btn-danger" onclick="deletePelarasan()">Padam</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="pelarasan.js"></script>
+</body>
+</html>

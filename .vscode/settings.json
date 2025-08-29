@@ -1,0 +1,6 @@
+{
+    "liveServer.settings.port": 5501,
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/1325b9ac-f7e9-46a3-9137-c1a841cd47ab/resourceGroups/iwastedev/providers/Microsoft.Web/sites/jkas-webapp",
+    "appService.deploySubpath": "."
+}
