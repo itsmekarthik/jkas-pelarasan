@@ -3,8 +3,14 @@ let pelarasanData = [];
 let currentEditId = null;
 let inventoriCounter = 0;
 
-// API Base URL - same pattern as kewangan
-const API_BASE_URL = 'http://localhost:3002/api/pelarasan';
+// API Base URL - force Azure URL when on Azure domain
+const API_BASE_URL = window.location.hostname.includes('azurewebsites.net') 
+    ? '/api/pelarasan' 
+    : (window.location.hostname === 'localhost' ? 'http://localhost:3001/api/pelarasan' : '/api/pelarasan');
+
+// Debug log to verify API URL
+console.log('Current hostname:', window.location.hostname);
+console.log('API Base URL:', API_BASE_URL);
 
 // Show different sections
 function showSection(section, clickedElement) {
